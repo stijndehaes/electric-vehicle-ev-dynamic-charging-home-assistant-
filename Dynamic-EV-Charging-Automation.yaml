@@ -36,7 +36,6 @@ blueprint:
         This can be a device tracker linked to the EV, a person’s location, or any other entity that provides location-based information. 
 
         The automation will only adjust the charging current when the EV is detected at home, preventing unwanted changes when charging away from the configured location.
-      default: device_tracker.ubicacion
       selector:
         entity:
           domain: device_tracker
@@ -48,14 +47,12 @@ blueprint:
         The automation will only adjust the charging amperage if this sensor indicates that the EV is actively charging. 
 
         If the vehicle is at home but not plugged in or has already completed charging, no changes will be made to the charging current.
-      default: sensor.carga
       selector:
         entity:
           domain: sensor
     sensor_house_power:
       name: Total Power Consumption Sensor
       description: Sensor that measures the total power consumption of the household in real-time.  This value is used to determine the available power for charging the electric vehicle (EV), ensuring that the charging current is dynamically adjusted to prevent exceeding the contracted power limit.  
-      default: sensor.shellyemg3_8cbfea96acd8_em1_power      
       selector:
         entity:
           domain: sensor
@@ -81,7 +78,6 @@ blueprint:
     charging_current:
       name: Charging Current Control
       description: Entity that controls the charging amperage of the electric vehicle (EV). This must be a `number` entity that allows adjusting the charging current dynamically. The automation will modify this value based on the available power in the household, ensuring efficient energy use and preventing overloads.
-      default: number.corriente_de_carga
       selector:
         entity:
           domain: number
