@@ -99,8 +99,8 @@ This blueprint allows setting **different power limits for day and night**, ensu
 ## ❓ Reporting Issues & Community Discussion
 
 If you encounter issues or have suggestions for improvements, please check the **Home Assistant Forum thread** for support.  
-_(A link to the forum thread will be added here.)_
-
+[https://community.home-assistant.io/t/dynamic-ev-charging-automation/846232
+](https://community.home-assistant.io/t/dynamic-ev-charging-automation/846232)
 ---
 
 ## 📜 License
