@@ -6,6 +6,7 @@ It works with **any EV (Tesla, Mercedes, Ford, BYD, etc.)** or **any EV charger*
 This blueprint dynamically adjusts the charging rate, ensuring that the vehicle uses the **maximum available power** without exceeding the contracted limit.  
 It also supports **different power limits for day and night** to optimize charging based on electricity tariffs.
 
+**If you found this project helpful, please consider buying me a coffee!**
 
 <div align="center">
   <a href='https://ko-fi.com/K3K819CO23' target='_blank'>
@@ -22,10 +23,10 @@ It also supports **different power limits for day and night** to optimize chargi
 This blueprint can be installed in two ways:
 
 ### **🔗 Direct Import via Home Assistant**
-_A direct link will be provided here._
+https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FEDV11%2Felectric-vehicle-ev-dynamic-charging-home-assistant-%2Fblob%2F55aff6f887136b29e311d646cfaea37b93042f07%2FDynamic-EV-Charging-Automation.yaml
 
 ### **📂 Manual Installation**
-1. Open the blueprint file in this repository.
+1. Open the blueprint file in this repository (https://github.com/EDV11/electric-vehicle-ev-dynamic-charging-home-assistant-/blob/55aff6f887136b29e311d646cfaea37b93042f07/Dynamic-EV-Charging-Automation.yaml).
 2. Copy the URL from your browser's address bar.
 3. In Home Assistant, go to **Settings → Automations & Scenes → Blueprints**.
 4. Click **"Import Blueprint"** in the bottom right corner.
@@ -34,12 +35,26 @@ _A direct link will be provided here._
 
 ---
 
+## 🔌 🚗 🔋 Tested Hardware  
+
+This is some of the hardware I've used and tested with this automation:  
+
+- [Shelly EM Energy Meter](https://amzlink.to/az0UFbhU9htEu)  
+- Tesla car with [Tesla Fleet integration](https://www.home-assistant.io/integrations/tesla_fleet/).  
+  - [Buy your Tesla with a discount through this link](https://ts.la/eduardo432919)  
+- [Feyree Type 2 portable 7kW charger](https://s.click.aliexpress.com/e/_opguDAp)  
+- [Feyree Type 2 Wallbox](https://s.click.aliexpress.com/e/_oEFZ75f)  
+
+Just to be clear, if you can control your car from Home Assistant and have access to its sensors, you can use this automation without a connected charger.
+
+---
+
 ## 🔧 Requirements
 
 Before using this blueprint, you need the following:
 
 - **Total Power Consumption Sensor** (e.g., <a href="https://amzlink.to/az0UFbhU9htEu" target=_blank>Shelly EM Gen3</a> is recommended if you don’t have one. You can get it from that link).
-- **Your EV or Charger integrated into Home Assistant**, exposing the necessary sensors. I use this <a href="https://s.click.aliexpress.com/e/_opa4tdi" target=_blank>Feyree portable charger</a>, I haven't tested with any other.
+- **Your EV or Charger integrated into Home Assistant**, exposing the necessary sensors. I use this <a href="https://s.click.aliexpress.com/e/_opguDAp" target=_blank>Feyree portable charger</a>, I haven't tested with any other.
 - **Basic information about your electricity contract**, including:
   - Grid voltage (e.g., 230V for EU, 120V for the US).
   - Maximum grid power limits (contracted power).
