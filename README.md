@@ -6,6 +6,15 @@ It works with **any EV (Tesla, Mercedes, Ford, BYD, etc.)** or **any EV charger*
 This blueprint dynamically adjusts the charging rate, ensuring that the vehicle uses the **maximum available power** without exceeding the contracted limit.  
 It also supports **different power limits for day and night** to optimize charging based on electricity tariffs.
 
+
+<div align="center">
+  <a href='https://ko-fi.com/K3K819CO23' target='_blank'>
+    <img height='36' style='border:0px;height:36px;' 
+         src='https://storage.ko-fi.com/cdn/kofi6.png?v=6' border='0' 
+         alt='Buy Me a Coffee at ko-fi' />
+  </a>
+</div>
+
 ---
 
 ## 📥 Installation
@@ -29,8 +38,8 @@ _A direct link will be provided here._
 
 Before using this blueprint, you need the following:
 
-- **Total Power Consumption Sensor** (e.g., Shelly EM Gen3 is recommended if you don’t have one).
-- **Your EV or Charger integrated into Home Assistant**, exposing the necessary sensors.
+- **Total Power Consumption Sensor** (e.g., <a href="https://amzlink.to/az0UFbhU9htEu" target=_blank>Shelly EM Gen3</a> is recommended if you don’t have one. You can get it from that link).
+- **Your EV or Charger integrated into Home Assistant**, exposing the necessary sensors. I use this <a href="https://s.click.aliexpress.com/e/_opa4tdi" target=_blank>Feyree portable charger</a>, I haven't tested with any other.
 - **Basic information about your electricity contract**, including:
   - Grid voltage (e.g., 230V for EU, 120V for the US).
   - Maximum grid power limits (contracted power).
