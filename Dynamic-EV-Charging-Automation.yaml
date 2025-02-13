@@ -1,5 +1,5 @@
 blueprint:
-  name: Dynamic EV Charging Automation
+  name: Dynamic EV Charging Automation version 1.1
   description: >
     This automation dynamically adjusts the charging current of an electric vehicle (EV) based on the total power consumption in the household. 
 
@@ -172,39 +172,67 @@ action:
   - variables:
       voltage: !input voltage
       max_amps: !input max_amps
-      min_amps: !input min_amps       
+      min_amps: !input min_amps
+
       sensor_house_power_entity: !input sensor_house_power
       charging_current_entity: !input charging_current
+
       charging_current_value: "{{ states(charging_current_entity) | float(0) }}"
       grid_power: "{{ states(sensor_house_power_entity) | float(0) }}"
       total_consumption: "{{ states(sensor_house_power_entity) | float(0) }}"
-      charger_consumption: "{{ charging_current_value * voltage }}"     
+      charger_consumption: "{{ charging_current_value * voltage }}"
+
       max_grid_power_day: !input max_grid_power_day
-      max_grid_power_night: !input max_grid_power_night      
+      max_grid_power_night: !input max_grid_power_night
       day_time_days: !input day_time_days
       day_time_start: !input day_time_start
       day_time_end: !input day_time_end
-      current_day: "{{ ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'][now().weekday()] }}"
-      is_day_time: "{{ current_day in day_time_days and day_time_start <= now().hour < day_time_end }}"  
+
+      current_day: "{{ ['mon','tue','wed','thu','fri','sat','sun'][now().weekday()] }}"
+      is_day_time: "{{ current_day in day_time_days and day_time_start <= now().hour < day_time_end }}"
+
       actual_free_power_day: "{{ max_grid_power_day - (total_consumption - charger_consumption) }}"
       actual_free_power_night: "{{ max_grid_power_night - (total_consumption - charger_consumption) }}"
-      actual_free_power: |-
+      actual_free_power: >-
         {% if is_day_time %}
           {{ actual_free_power_day }}
         {% else %}
           {{ actual_free_power_night }}
-        {% endif %}      
-    
-  - service: number.set_value
-    target:
-      entity_id: !input charging_current
-    data:
-      value: |-
-        {% if actual_free_power / voltage > max_amps %}
+        {% endif %}
+
+      # We calculate new_target_value only once
+      new_target_value: >-
+        {% set raw_amps = (actual_free_power / voltage) | float %}
+        {% if raw_amps > max_amps %}
           {{ max_amps | float }}
-        {% elif actual_free_power / voltage < min_amps %}
+        {% elif raw_amps < min_amps %}
           0.0
         {% else %}
-          {{ (actual_free_power / voltage) | round(1) | float }}
+          {{ raw_amps | round(1) | float }}
         {% endif %}
-mode: single            
+
+  - repeat:
+      while:
+        # While the difference between the actual reading and the new_target_value is ≥ 1 A, we continue increasing or decreasing by 1 unit at a time.
+        - condition: template
+          value_template: >-
+            {% set current_amps = states(charging_current_entity) | float %}
+            {% set diff = (current_amps - (new_target_value | float)) | abs %}
+            {{ diff >= 1 }}
+      sequence:
+        - service: number.set_value
+          target:
+            entity_id: !input charging_current
+          data:
+            value: >-
+              {% set current_amps = states(charging_current_entity) | float %}
+              {% if current_amps < (new_target_value | float) %}
+                {{ current_amps + 1 }}
+              {% elif current_amps > (new_target_value | float) %}
+                {{ current_amps - 1 }}
+              {% else %}
+                {{ new_target_value }}
+              {% endif %}
+        - delay:
+            seconds: 8
+mode: single
