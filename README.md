@@ -1,4 +1,4 @@
-# Dynamic EV Charging Automation for Home Assistant
+# Tesla Dynamic Charging Automation for Home Assistant (also Ford, Mercedes... any EV)
 
 This project automates the charging current of an electric vehicle based on household power consumption.  
 It works with **any EV (Tesla, Mercedes, Ford, BYD, etc.)** or **any EV charger** as long as it is integrated and can be controlled within Home Assistant.
