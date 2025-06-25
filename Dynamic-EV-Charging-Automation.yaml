@@ -269,7 +269,7 @@ action:
               {% if current_amps < (new_target_value | float) %}
                 {{ current_amps + 1 }}
               {% elif current_amps > (new_target_value | float) %}
-                {{ current_amps - 1 }}
+                {{ [current_amps - 1, min_amps] | max }}
               {% else %}
                 {{ new_target_value }}
               {% endif %}
