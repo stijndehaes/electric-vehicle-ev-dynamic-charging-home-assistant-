@@ -120,7 +120,7 @@ blueprint:
       default: 20
       selector:
         number:
-          min: 6
+          min: 5
           max: 32
           step: 1  
     min_amps:
