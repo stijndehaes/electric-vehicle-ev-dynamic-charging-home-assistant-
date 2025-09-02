@@ -194,7 +194,8 @@ condition:
           - 'charging'
           - 'charged'
           - 'plugged_in'
-        
+          - 'stopped'
+
 action:
   - variables:
       voltage: !input voltage
