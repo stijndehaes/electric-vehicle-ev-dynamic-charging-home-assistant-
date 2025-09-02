@@ -71,7 +71,7 @@ blueprint:
       default: select.ev_charger_toggle_charging
       selector:
         entity:
-          domain: select               
+          domain: switch
     sensor_house_power:
       name: Total Power Consumption Sensor
       description: Sensor that measures the total power consumption of the household in real-time.  This value is used to determine the available power for charging the electric vehicle (EV), ensuring that the charging current is dynamically adjusted to prevent exceeding the contracted power limit.  
@@ -237,17 +237,21 @@ action:
           {{ raw_amps | int }}
         {% endif %}
 # First: Control charging state (Start/Stop)
-  - service: select.select_option
-    target:
-      entity_id: !input charger_toggle
-    data:
-      option: |-
-        {% if actual_free_power / voltage >= min_amps %}
-          Start charging
-        {% else %}
-          Stop charging
-        {% endif %}    
-        
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{{ actual_free_power / voltage >= min_amps }}"
+      sequence:
+      - service: switch.turn_on
+        target:
+          entity_id: !input charger_toggle
+    - conditions:
+      - condition: template
+        value_template: "{{ actual_free_power / voltage < min_amps }}"
+      sequence:
+      - service: switch.turn_off
+        target:
+          entity_id: !input charger_toggle
 
 
   - repeat:
