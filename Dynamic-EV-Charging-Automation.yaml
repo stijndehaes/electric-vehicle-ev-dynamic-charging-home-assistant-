@@ -240,15 +240,28 @@ action:
 # First: Control charging state (Start/Stop)
   - choose:
     - conditions:
-      - condition: template
-        value_template: "{{ actual_free_power / voltage >= min_amps }}"
+      - condition: and
+        conditions:
+        - condition: template
+          value_template: "{{ actual_free_power / voltage >= min_amps }}"
+        - condition: state
+          entity_id: !input sensor_charging
+          state:
+            - 'plugged_in'
+            - 'stopped'
       sequence:
       - service: switch.turn_on
         target:
           entity_id: !input charger_toggle
     - conditions:
-      - condition: template
-        value_template: "{{ actual_free_power / voltage < min_amps }}"
+      - condition: and
+        conditions:
+        - condition: template
+          value_template: "{{ actual_free_power / voltage < min_amps }}"
+        - condition: state
+          entity_id: !input sensor_charging
+          state:
+            - 'charging'
       sequence:
       - service: switch.turn_off
         target:
